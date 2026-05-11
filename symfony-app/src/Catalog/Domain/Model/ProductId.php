@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Cart\Domain;
+namespace App\Catalog\Domain\Model;
 
 use InvalidArgumentException;
 
-final class CartId
+final class ProductId
 {
     private function __construct(
         private readonly string $value,
@@ -15,7 +15,7 @@ final class CartId
     public static function create(string $value): self
     {
         if (empty(trim($value))) {
-            throw new InvalidArgumentException('CartId no puede estar vacío');
+            throw new InvalidArgumentException('ProductId no puede estar vacío');
         }
 
         return new self($value);

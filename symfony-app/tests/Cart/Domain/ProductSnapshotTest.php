@@ -1,7 +1,7 @@
 <?php
 namespace App\Tests\Cart\Domain;
 
-use App\Cart\Domain\ProductSnapshot;
+use App\Cart\Domain\Model\ProductSnapshot;
 use App\Shared\Domain\Money;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

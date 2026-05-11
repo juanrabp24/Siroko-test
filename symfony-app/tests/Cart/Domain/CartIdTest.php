@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Cart\Domain;
 
-use App\Cart\Domain\CartId;
+use App\Cart\Domain\Model\CartId;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

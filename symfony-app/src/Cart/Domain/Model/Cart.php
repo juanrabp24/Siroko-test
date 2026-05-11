@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Cart\Domain;
+namespace App\Cart\Domain\Model;
 
+use App\Cart\Domain\Money;
 use DomainException;
 
 final class Cart

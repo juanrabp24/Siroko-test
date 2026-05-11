@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Cart\Domain;
 
-use App\Cart\Domain\CartItem;
-use App\Cart\Domain\ProductSnapshot;
-use App\Cart\Domain\Quantity;
+use App\Cart\Domain\Model\CartItem;
+use App\Cart\Domain\Model\ProductSnapshot;
+use App\Cart\Domain\Model\Quantity;
 use App\Shared\Domain\Money;
 use PHPUnit\Framework\TestCase;
 

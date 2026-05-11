@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Cart\Domain;
 
-use App\Cart\Domain\Cart;
-use App\Cart\Domain\CartCheckedOut;
-use App\Cart\Domain\CartId;
-use App\Cart\Domain\ProductSnapshot;
-use App\Cart\Domain\Quantity;
+use App\Cart\Domain\Model\Cart;
+use App\Cart\Domain\Model\CartCheckedOut;
+use App\Cart\Domain\Model\CartId;
+use App\Cart\Domain\Model\ProductSnapshot;
+use App\Cart\Domain\Model\Quantity;
 use App\Shared\Domain\Money;
 use DomainException;
 use PHPUnit\Framework\TestCase;
