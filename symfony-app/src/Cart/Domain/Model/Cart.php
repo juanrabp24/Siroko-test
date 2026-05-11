@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Cart\Domain\Model;
 
-use App\Cart\Domain\Money;
+use App\Shared\Domain\Money;
 use DomainException;
 
 final class Cart
@@ -21,6 +21,14 @@ final class Cart
     public static function create(CartId $id, string $userId): self
     {
         return new self($id, $userId);
+    }
+
+    public static function reconstitute(CartId $id, string $userId, bool $checked, array $items): self
+    {
+        $cart = new self($id, $userId);
+        $cart->checked = $checked;
+        $cart->items = $items;
+        return $cart;
     }
 
     public function addItem(ProductSnapshot $product, Quantity $quantity): void
