@@ -1,9 +1,12 @@
 
-###> symfony/framework-bundle ###
+# Credenciales y secretos — nunca subir
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+
+###> symfony/framework-bundle ###
 /public/bundles/
 /var/
 /vendor/
@@ -13,3 +16,6 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+# Docker overrides locales
+/compose.override.yaml

@@ -1,1 +1,15 @@
+# IDEs
 .idea/
+.vscode/
+*.swp
+*.swo
+
+# WSL — archivos de zona NTFS que Windows añade automáticamente
+*:Zone.Identifier
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
