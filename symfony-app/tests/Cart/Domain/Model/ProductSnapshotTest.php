@@ -1,5 +1,5 @@
 <?php
-namespace App\Tests\Cart\Domain;
+namespace App\Tests\Cart\Domain\Model;
 
 use App\Cart\Domain\Model\ProductSnapshot;
 use App\Shared\Domain\Money;

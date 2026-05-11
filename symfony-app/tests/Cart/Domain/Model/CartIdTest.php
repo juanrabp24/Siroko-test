@@ -2,42 +2,42 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog\Domain;
+namespace App\Tests\Cart\Domain\Model;
 
-use App\Catalog\Domain\Model\ProductId;
+use App\Cart\Domain\Model\CartId;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-final class ProductIdTest extends TestCase
+final class CartIdTest extends TestCase
 {
     public function testCreacionValida(): void
     {
-        $id = ProductId::create('prod-123');
+        $id = CartId::create('abc-123');
 
-        $this->assertSame('prod-123', $id->value());
+        $this->assertSame('abc-123', $id->value());
     }
 
     public function testVacio(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        ProductId::create('');
+        CartId::create('');
     }
 
     public function testEspacios(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        ProductId::create('   ');
+        CartId::create('   ');
     }
 
     public function testIgualdad(): void
     {
-        $this->assertTrue(ProductId::create('prod-123')->equals(ProductId::create('prod-123')));
+        $this->assertTrue(CartId::create('abc-123')->equals(CartId::create('abc-123')));
     }
 
     public function testDesigualdad(): void
     {
-        $this->assertFalse(ProductId::create('prod-123')->equals(ProductId::create('prod-456')));
+        $this->assertFalse(CartId::create('abc-123')->equals(CartId::create('xyz-456')));
     }
 }

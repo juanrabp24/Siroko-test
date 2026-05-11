@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Cart\Domain;
+namespace App\Tests\Cart\Domain\Model;
 
 use App\Cart\Domain\Model\Cart;
 use App\Cart\Domain\Model\CartCheckedOut;

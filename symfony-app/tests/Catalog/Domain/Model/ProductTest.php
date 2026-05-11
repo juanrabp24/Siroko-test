@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog\Domain;
+namespace App\Tests\Catalog\Domain\Model;
 
 use App\Catalog\Domain\Model\Product;
 use App\Catalog\Domain\Model\ProductId;
