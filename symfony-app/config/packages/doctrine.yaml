@@ -1,0 +1,50 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        server_version: '8.4'
+        profiling_collect_backtrace: '%kernel.debug%'
+        use_savepoints: true
+
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: false
+        mappings:
+            Cart:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Cart/Infrastructure/Persistence'
+                prefix: 'App\Cart\Infrastructure\Persistence'
+                alias: Cart
+            Catalog:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/Infrastructure/Persistence'
+                prefix: 'App\Catalog\Infrastructure\Persistence'
+                alias: Catalog
+            Order:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Order/Infrastructure/Persistence'
+                prefix: 'App\Order\Infrastructure\Persistence'
+                alias: Order
+            Payment:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Payment/Infrastructure/Persistence'
+                prefix: 'App\Payment\Infrastructure\Persistence'
+                alias: Payment
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
