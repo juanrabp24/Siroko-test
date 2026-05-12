@@ -25,6 +25,11 @@ final class Product
         return new self($id, $name, $price, $stock);
     }
 
+    public static function reconstitute(ProductId $id, ProductName $name, Money $price, Stock $stock): self
+    {
+        return new self($id, $name, $price, $stock);
+    }
+
     public function updateStock(Stock $stock): void
     {
         $this->stock = $stock;
