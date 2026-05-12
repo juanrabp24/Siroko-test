@@ -17,5 +17,6 @@
 /.phpunit.cache/
 ###< phpunit/phpunit ###
 
-# Docker overrides locales
+# Docker — ficheros generados por Symfony Flex que no aplican a este proyecto
+/compose.yaml
 /compose.override.yaml
