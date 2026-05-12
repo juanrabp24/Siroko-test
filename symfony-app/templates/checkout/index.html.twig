@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmar pedido — Siroko Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0a0a0a;
+    --surface:  #111111;
+    --surface2: #1a1a1a;
+    --border:   #222222;
+    --accent:   #f5c518;
+    --accent2:  #ff4d1c;
+    --text:     #f0f0f0;
+    --muted:    #666666;
+    --radius:   12px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back-link {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: color .2s;
+    width: 140px;
+  }
+  .back-link:hover { color: var(--text); }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+
+  .nav-spacer { width: 140px; }
+
+  /* ── MAIN ── */
+  .checkout-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 48px 80px;
+  }
+
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+  }
+
+  /* ── GRID ── */
+  .checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 28px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .checkout-grid { grid-template-columns: 1fr; }
+    .checkout-main { padding: 32px 24px 60px; }
+    nav { padding: 0 24px; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  /* ── ORDER ITEMS ── */
+  .order-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .order-item:last-of-type { border-bottom: none; }
+
+  .order-item-icon {
+    width: 48px; height: 48px;
+    background: var(--surface2);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .order-item-info { flex: 1; min-width: 0; }
+
+  .order-item-name {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .order-item-qty { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  .order-item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .order-total-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 20px;
+    margin-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+
+  .order-total-row span:first-child {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+  }
+
+  .total-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+  }
+
+  /* ── FORM ── */
+  .form-group {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: border-color .2s;
+    outline: none;
+    width: 100%;
+  }
+
+  input::placeholder { color: var(--muted); }
+  input:focus { border-color: var(--accent); }
+
+  .confirm-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent2);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    letter-spacing: .5px;
+    transition: background .2s, transform .1s;
+  }
+
+  .confirm-btn:hover:not(:disabled) { background: #ff6a3d; }
+  .confirm-btn:active:not(:disabled) { transform: scale(.99); }
+  .confirm-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* ── SUCCESS ── */
+  .success-wrap {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 60vh;
+  }
+
+  .success-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .success-icon {
+    width: 64px; height: 64px;
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    color: #4ade80;
+    margin: 0 auto 24px;
+  }
+
+  .success-card h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .success-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 28px; }
+
+  .id-list {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    text-align: left;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .id-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+  .id-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .id-value {
+    font-size: 12px; color: var(--text);
+    font-family: monospace;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: .3px;
+    transition: background .2s;
+  }
+  .back-btn:hover { background: #ffd740; }
+
+  /* ── LOADER ── */
+  .loader {
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px; color: var(--muted); gap: 12px; font-size: 14px;
+  }
+
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── TOAST ── */
+  .toast-container {
+    position: fixed; bottom: 28px; right: 28px; z-index: 300;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .toast {
+    padding: 14px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    animation: toastIn .3s ease;
+    max-width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+
+  .toast.error { border-color: rgba(255,77,28,0.3); }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="back-link">← Volver al catálogo</a>
+  <div class="logo">SIROKO</div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<main class="checkout-main">
+  <h1 class="page-title">Confirmar pedido</h1>
+
+  <div id="loader" class="loader"><div class="spinner"></div> Cargando tu pedido…</div>
+
+  <div id="checkoutContent" style="display:none">
+    <div class="checkout-grid">
+
+      <!-- ORDER SUMMARY -->
+      <div class="card">
+        <div class="card-title">Resumen</div>
+        <div id="itemsList"></div>
+        <div class="order-total-row">
+          <span>Total</span>
+          <span class="total-amount" id="totalAmount">—</span>
+        </div>
+      </div>
+
+      <!-- SHIPPING FORM -->
+      <div class="card">
+        <div class="card-title">Dirección de envío</div>
+        <form id="shippingForm" onsubmit="placeOrder(event)">
+          <div class="form-group">
+            <label>Nombre del destinatario</label>
+            <input type="text" name="recipientName" required placeholder="Juan García">
+          </div>
+          <div class="form-group">
+            <label>Calle y número</label>
+            <input type="text" name="street" required placeholder="Calle Mayor 42">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Código postal</label>
+              <input type="text" name="postalCode" required placeholder="28001">
+            </div>
+            <div class="form-group">
+              <label>Ciudad</label>
+              <input type="text" name="city" required placeholder="Madrid">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>País</label>
+            <input type="text" name="country" required placeholder="España" value="España">
+          </div>
+          <button type="submit" class="confirm-btn" id="confirmBtn">
+            Finalizar compra
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="successScreen" style="display:none" class="success-wrap">
+    <div class="success-card" id="successCard"></div>
+  </div>
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  const ICONS   = ['🚴', '👕', '🧢', '🩳', '🧤', '👟', '🥽', '🎽'];
+  const USER_ID = 'user-demo';
+
+  const params  = new URLSearchParams(window.location.search);
+  const CART_ID = params.get('cartId');
+
+  let cartData = null;
+
+  // ── INIT ──────────────────────────────────────────────────────────────────
+
+  async function init() {
+    if (!CART_ID) { window.location.href = '/'; return; }
+
+    try {
+      const res = await fetch(`/cart/${CART_ID}`);
+      if (!res.ok) throw new Error();
+      cartData = await res.json();
+
+      if (!cartData.items?.length || cartData.isChecked) {
+        window.location.href = '/';
+        return;
+      }
+
+      renderSummary(cartData);
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('checkoutContent').style.display = 'block';
+    } catch {
+      window.location.href = '/';
+    }
+  }
+
+  // ── RENDER SUMMARY ────────────────────────────────────────────────────────
+
+  function renderSummary(data) {
+    document.getElementById('itemsList').innerHTML = data.items.map((item, i) => `
+      <div class="order-item">
+        <div class="order-item-icon">${ICONS[i % ICONS.length]}</div>
+        <div class="order-item-info">
+          <div class="order-item-name">${esc(item.productName)}</div>
+          <div class="order-item-qty">Cantidad: ${item.quantity}</div>
+        </div>
+        <span class="order-item-price">${formatPrice(item.total)}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('totalAmount').textContent = formatPrice(data.total);
+    document.getElementById('confirmBtn').textContent  = `Finalizar compra — ${formatPrice(data.total)}`;
+  }
+
+  // ── PLACE ORDER ───────────────────────────────────────────────────────────
+
+  async function placeOrder(e) {
+    e.preventDefault();
+
+    const btn     = document.getElementById('confirmBtn');
+    const form    = e.target;
+    const orderId = 'order-' + Math.random().toString(36).slice(2, 11);
+    const payId   = 'pay-'   + Math.random().toString(36).slice(2, 11);
+
+    btn.disabled    = true;
+    btn.textContent = 'Procesando…';
+
+    try {
+      // 1. Checkout del carrito
+      let res = await fetch(`/cart/${CART_ID}/checkout`, { method: 'POST' });
+      if (!res.ok) throw new Error('Error al cerrar el carrito');
+
+      // 2. Crear pedido
+      res = await fetch('/orders', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          cartId:        CART_ID,
+          userId:        USER_ID,
+          recipientName: form.recipientName.value,
+          street:        form.street.value,
+          city:          form.city.value,
+          postalCode:    form.postalCode.value,
+          country:       form.country.value,
+        }),
+      });
+      if (!res.ok) throw new Error('Error al crear el pedido');
+
+      // 3. Procesar pago
+      res = await fetch('/payments', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentId: payId,
+          orderId,
+          amount: cartData.total,
+        }),
+      });
+      if (!res.ok) throw new Error('Error al procesar el pago');
+
+      showSuccess(orderId, payId);
+
+    } catch (err) {
+      btn.disabled    = false;
+      btn.textContent = `Finalizar compra — ${formatPrice(cartData.total)}`;
+      toast(err.message || 'Error al procesar el pedido');
+    }
+  }
+
+  // ── SUCCESS ───────────────────────────────────────────────────────────────
+
+  function showSuccess(orderId, payId) {
+    document.getElementById('checkoutContent').style.display = 'none';
+    document.getElementById('successScreen').style.display   = 'flex';
+    document.getElementById('successCard').innerHTML = `
+      <div class="success-icon">✓</div>
+      <h2>¡Pedido realizado!</h2>
+      <p>Tu pedido ha sido procesado y el pago confirmado.<br>Recibirás tu pedido en breve.</p>
+      <div class="id-list">
+        <div class="id-row">
+          <span class="id-label">Pedido</span>
+          <span class="id-value">${esc(orderId)}</span>
+        </div>
+        <div class="id-row">
+          <span class="id-label">Pago</span>
+          <span class="id-value">${esc(payId)}</span>
+        </div>
+      </div>
+      <a href="/" class="back-btn">Volver a la tienda</a>
+    `;
+  }
+
+  // ── UTILS ─────────────────────────────────────────────────────────────────
+
+  function formatPrice(cents) {
+    return (cents / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function toast(msg) {
+    const c = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast error';
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+  }
+
+  // ── START ─────────────────────────────────────────────────────────────────
+  init();
+</script>
+</body>
+</html>
