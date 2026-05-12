@@ -19,5 +19,15 @@ services:
     App\:
         resource: '../src/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # Repository interface bindings
+    App\Cart\Domain\Repository\CartRepositoryInterface:
+        class: App\Cart\Infrastructure\Persistence\DoctrineCartRepository
+
+    App\Order\Domain\Repository\OrderRepositoryInterface:
+        class: App\Order\Infrastructure\Persistence\DoctrineOrderRepository
+
+    App\Payment\Domain\Repository\PaymentRepositoryInterface:
+        class: App\Payment\Infrastructure\Persistence\DoctrinePaymentRepository
+
+    App\Catalog\Domain\Repository\ProductRepositoryInterface:
+        class: App\Catalog\Infrastructure\Persistence\DoctrineProductRepository
