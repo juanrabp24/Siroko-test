@@ -89,6 +89,14 @@ en `Infrastructure/Persistence/` que mapean manualmente hacia y desde
 los agregados de dominio.
 
 ---
+## Documentación de IA
+
+El proceso de colaboración con IA está documentado en la carpeta [`/ai`](./ai/):
+- [`PLAN.md`](./ai/PLAN.md) — plan de trabajo y fases
+- [`DECISIONS.md`](./ai/DECISIONS.md) — decisiones tomadas frente a la IA
+- [`prompts.md`](./ai/prompts.md) — prompts clave del proceso
+
+---
 
 
 ## OpenAPI Specification
