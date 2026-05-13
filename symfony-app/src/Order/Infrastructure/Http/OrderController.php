@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Http;
+namespace App\Order\Infrastructure\Http;
 
 use App\Order\Application\Command\CreateOrder;
 use App\Order\Application\Command\CreateOrderHandler;
