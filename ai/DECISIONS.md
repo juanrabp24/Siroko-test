@@ -3,16 +3,17 @@
 ## 1. Money — moneda fija EUR
 La IA generó Money con currency como parámetro variable y validación ISO 4217.
 Decidí hardcodear EUR porque la app solo opera en euros. Menos complejidad, más
-claridad de intención.
+claridad de intención. En un sistema internacional, la moneda se determinaría
+por geolocalización o preferencia del usuario — fuera del alcance de esta prueba.
 
 ## 2. Money — int en lugar de float
 La IA sugirió float para el importe. Rechazado. Se usa int en céntimos para
-evitar errores de punto flotante en cálculos financieros.
+evitar errores de punto flotante en cálculos financieros. Regla innegociable
+en cualquier sistema que maneje dinero.
 
 ## 3. Sin UUID ni uniqid para IDs
 La IA propuso ramsey/uuid y después uniqid(). Decidí prescindir de ambos para
-evitar dependencias innecesarias en una prueba de este alcance. Los IDs son
-strings libres que el cliente genera (patrón client-generated ID, válido en DDD).
+evitar dependencias innecesarias en una prueba de este alcance.
 
 ## 4. CartRepositoryInterface dentro de Domain/Repository/
 Pensaba ponerlo en la raíz del contexto pero lo mantuve en Domain/Repository/ por
@@ -47,10 +48,10 @@ método específico `findAvailable()` es explícito en la intención de dominio 
 DQL sobre `p.stock > 0` (campo directo en `ProductEntity`, no embeddable).
 
 ## 8. Entidades Doctrine separadas en Infrastructure en lugar de mapear el dominio
-La opción inicial era mapear los agregados de dominio directamente con XML o con
-atributos Doctrine. Rechazado: mezclaría conceptos de persistencia en el dominio
-o requeriría custom types para cada VO. Este cambio se ha realizado por que nunca he trabajado 
-con el mapeo de XML de doctrine, desconozco su uso y su alcance
+La opción inicial era mapear los agregados de dominio directamente con atributos
+Doctrine. Rechazado: mezclaría conceptos de persistencia en el dominio o
+requeriría custom types para cada VO, añadiendo complejidad de configuración sin
+beneficio arquitectónico real.
 
 **Decisión**: clases `*Entity` en `Infrastructure/Persistence/` con atributos
 `#[ORM\Entity]`/`#[ORM\Column]`. Los repositorios hacen la traducción explícita
@@ -68,27 +69,7 @@ el estado tal como está guardado).
 
 Esta separación evita que el repositorio tenga que falsear el estado del agregado
 después de crearlo, y hace explícito en el código cuándo se está creando algo nuevo
-versus cuándo se está leyendo algo ya existente.
-
-
-**SPA-light con fetch**: la UI no usa ningún framework JS. Toda la interactividad
-se resuelve con `fetch` nativo contra la propia API JSON de Symfony. Esto evita
-añadir un bundler o dependencias de Node al stack.
-
-**Checkout como página separada**: en lugar de un modal o paso adicional en el
-panel del carrito, el checkout vive en `/checkout?cartId=...`. Razones:
-- Permite mostrar el formulario de envío sin saturar el panel lateral.
-- El flujo de tres pasos (checkout cart → crear order → procesar payment) queda
-  claramente contenido en una sola página con su propia responsabilidad.
-- Al volver a la tienda se genera un nuevo `CART_ID` aleatorio, vaciando el
-  carrito de forma natural sin necesidad de mutación de estado en el servidor.
-
-**CART_ID generado en cliente**: siguiendo el patrón client-generated ID ya
-establecido en el dominio (decisión 3), el carrito se identifica con un ID
-aleatorio generado en el navegador al cargar la página.
-
-**TwigBundle instalado a posteriori**: el skeleton inicial no incluía Twig. Se
-instaló con `composer require symfony/twig-bundle` cuando fue necesario para
-servir los templates. Symfony Flex gestionó la configuración automáticamente.
-
-
+versus cuándo se está leyendo algo ya existente. La IA no tenía este método en su
+propuesta inicial — se detectó el problema al revisar que `reconstitute()` era
+llamado desde el repositorio sin existir en el agregado, y se añadió con criterio
+propio diferenciándolo claramente de `create()`.
